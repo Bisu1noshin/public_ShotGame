@@ -137,6 +137,7 @@ GameObject:
   - component: {fileID: 378384360}
   - component: {fileID: 378384359}
   - component: {fileID: 378384361}
+  - component: {fileID: 378384362}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -314,6 +315,20 @@ MonoBehaviour:
   - 4.36
   playerHitPoint: 0
   BreakEffect: {fileID: 468475462486525353, guid: a39ef52527acb32418d4ea609ec56af8, type: 3}
+--- !u!114 &378384362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 378384355}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 027ed7ea184755d4794b10693c366863, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  Shot:
+  - {fileID: 2956580997933677312, guid: 1c01de40f480f4443b7bcc35f7c61909, type: 3}
 --- !u!1 &982252459
 GameObject:
   m_ObjectHideFlags: 0
@@ -357,35 +372,11 @@ MonoBehaviour:
       m_Calls: []
   m_ActionEvents:
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 378384361}
-        m_TargetAssemblyTypeName: Playercontllore, Assembly-CSharp
-        m_MethodName: Move
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_ActionId: 760e2ba9-ff8b-46d8-a054-4375d59626a7
     m_ActionName: Player/Move[/Keyboard/w,/Keyboard/upArrow,/Keyboard/s,/Keyboard/downArrow,/Keyboard/a,/Keyboard/leftArrow,/Keyboard/d,/Keyboard/rightArrow]
   - m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 378384361}
-        m_TargetAssemblyTypeName: Playercontllore, Assembly-CSharp
-        m_MethodName: Fire
-        m_Mode: 0
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 1
+      m_Calls: []
     m_ActionId: e7a6e350-8ce9-40d4-ac11-6866f7fe6cdf
     m_ActionName: Player/Fire[/Mouse/leftButton]
   - m_PersistentCalls:

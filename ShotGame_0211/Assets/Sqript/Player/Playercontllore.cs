@@ -1,3 +1,4 @@
+ï»¿using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -22,9 +23,25 @@ public class Playercontllore : MonoBehaviour
 
     GameObject player;
     Animator anim;
+    @ShotGame_0211 _gameInputs;
 
     Vector2 moveVec = new(0, 0);
 
+    private void Awake()
+    {
+        // Actionã‚¹ã‚¯ãƒªãƒ—ãƒˆã®ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ç”Ÿæˆ
+        _gameInputs = new @ShotGame_0211();
+
+        // Actionã‚¤ãƒ™ãƒ³ãƒˆç™»éŒ²
+        _gameInputs.Player.Move.started += Move;
+        _gameInputs.Player.Move.performed += Move;
+        _gameInputs.Player.Move.canceled += Move;
+        //_gameInputs.Player.Fire.performed += OnJump;
+
+        // Input Actionã‚’æ©Ÿèƒ½ã•ã›ã‚‹ãŸã‚ã«ã¯ã€
+        // æœ‰åŠ¹åŒ–ã™ã‚‹å¿…è¦ãŒã‚ã‚‹
+        _gameInputs.Enable();
+    }
 
     private void Start()
     {
@@ -49,12 +66,12 @@ public class Playercontllore : MonoBehaviour
         PlayerDeath();
 
 #if UNITY_EDITOR
-        // ƒfƒoƒbƒO—pŠÖ”
+        // ãƒ‡ãƒãƒƒã‚°ç”¨é–¢æ•°
         PlayerDebug();
 #endif
     }
 
-    // player‚Ìó‘Ô‘JˆÚ
+    // playerã®çŠ¶æ…‹é·ç§»
     private void UpDataState()
     {
         if (playerHitPoint <= 0)
@@ -68,7 +85,7 @@ public class Playercontllore : MonoBehaviour
         else { state = StateType.Idle; }
     }
 
-    // player‚ÌˆÚ“®
+    // playerã®ç§»å‹•
     private void PlayerMove(float speed_)
     {
         Vector3 move = new(moveVec.x, moveVec.y, 0.0f);
@@ -76,7 +93,7 @@ public class Playercontllore : MonoBehaviour
         PlayerVec();
     }
 
-    // player‚ÌˆÚ“®§Œä
+    // playerã®ç§»å‹•åˆ¶å¾¡
     private void PlayerVec()
     {
         Vector3 vector = player.transform.position;
@@ -108,7 +125,7 @@ public class Playercontllore : MonoBehaviour
         player.transform.position = vector;
     }
 
-    // player‚ÌƒAƒjƒ[ƒVƒ‡ƒ“
+    // playerã®ã‚¢ãƒ‹ãƒ¡ãƒ¼ã‚·ãƒ§ãƒ³
     private void PlayerAnimation()
     {
         if (state == prestate) { return; }
@@ -131,7 +148,7 @@ public class Playercontllore : MonoBehaviour
         prestate = state;
     }
 
-    // ƒQ[ƒ€ƒI[ƒo[‚Ìˆ—
+    // ã‚²ãƒ¼ãƒ ã‚ªãƒ¼ãƒãƒ¼ã®å‡¦ç†
     private void PlayerDeath()
     {
         if (state == StateType.Break)
@@ -146,7 +163,7 @@ public class Playercontllore : MonoBehaviour
 
 
 
-    // “ü—ÍƒCƒxƒ“ƒg
+    // å…¥åŠ›ã‚¤ãƒ™ãƒ³ãƒˆ
 
     public void Move(InputAction.CallbackContext context)
     {
@@ -155,12 +172,7 @@ public class Playercontllore : MonoBehaviour
         moveVec = vector;
     }
 
-    public void Fire(InputAction.CallbackContext context)
-    {
-        Debug.Log("");
-    }
-
-    // ƒfƒoƒbƒO—p
+    // ãƒ‡ãƒãƒƒã‚°ç”¨
 
     void PlayerDebug() 
     {
