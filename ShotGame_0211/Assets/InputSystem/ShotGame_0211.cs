@@ -38,12 +38,12 @@ public partial class @ShotGame_0211: IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": ""Fire"",
-                    ""type"": ""PassThrough"",
+                    ""type"": ""Button"",
                     ""id"": ""e7a6e350-8ce9-40d4-ac11-6866f7fe6cdf"",
-                    ""expectedControlType"": """",
+                    ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": """",
-                    ""initialStateCheck"": true
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -183,7 +183,7 @@ public partial class @ShotGame_0211: IInputActionCollection2, IDisposable
                     ""name"": """",
                     ""id"": ""a2719f32-b70f-4400-9a5c-dd6bbe49e65f"",
                     ""path"": ""<Keyboard>/space"",
-                    ""interactions"": """",
+                    ""interactions"": ""Press(pressPoint=0.5)"",
                     ""processors"": """",
                     ""groups"": """",
                     ""action"": ""Fire"",

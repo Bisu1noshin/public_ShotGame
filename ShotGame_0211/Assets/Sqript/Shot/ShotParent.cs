@@ -9,7 +9,7 @@ abstract public class ShotParent : MonoBehaviour
     protected Collider2D coll;
 
     protected int attackPoint;
-    protected float isShotTime = 30;
+    protected float isShotTime = 0.5f;
     private float shotTimeCnt;
 
     private void Start()
@@ -30,6 +30,8 @@ abstract public class ShotParent : MonoBehaviour
     /// 弾の移動処理
     /// </summary>
     abstract protected void ShotMove();
+
+    abstract public void ShotInstancePos(Vector3 playerpositon);
 
     // 参照可能メソッド
 

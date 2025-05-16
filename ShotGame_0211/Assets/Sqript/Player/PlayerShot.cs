@@ -6,8 +6,10 @@ public class PlayerShot : MonoBehaviour
 {
     [SerializeField] GameObject[] Shot;
 
+    GameObject player;
     int playerLevel;
     bool shotflag;
+    bool oneflag;
     @ShotGame_0211 _gameInputs;
 
     private void Awake()
@@ -16,7 +18,9 @@ public class PlayerShot : MonoBehaviour
         _gameInputs = new @ShotGame_0211();
 
         // Actionイベント登録
-        _gameInputs.Player.Fire.performed += Fire;
+        _gameInputs.Player.Fire.started += EnterFire;
+        _gameInputs.Player.Fire.performed += OnFire;
+        _gameInputs.Player.Fire.canceled += ExitFire;
 
         // Input Actionを機能させるためには、
         // 有効化する必要がある
@@ -26,11 +30,19 @@ public class PlayerShot : MonoBehaviour
     private void Start()
     {
         playerLevel = 1;
+        oneflag = false;
+        shotflag = false;
+        player = gameObject;
     }
 
-    private void Update()
+    private void FixedUpdate()
     {
-        // pass
+        if(oneflag == false) { oneflag = true; return; }
+
+        if(shotflag)
+        {
+            ShotInstance();
+        }
     }
 
     private void ShotInstance()
@@ -43,15 +55,26 @@ public class PlayerShot : MonoBehaviour
 
             go[i] = Shot[i];
             Instantiate(go[i]);
-            Vector3 pos = transform.position;
-            go[i].transform.position = pos;
+            Vector3 newpos = player.transform.position;
+            go[i].GetComponent<ShotParent>().ShotInstancePos(newpos);
         }
     }
 
 
     // 入力イベント
-    public void Fire(InputAction.CallbackContext context)
+    public void EnterFire(InputAction.CallbackContext context)
     {
-        ShotInstance();
+        oneflag = false;
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        shotflag = true;
+    }
+
+    public void ExitFire(InputAction.CallbackContext context)
+    {
+        oneflag = false;
+        shotflag = false;
     }
 }
