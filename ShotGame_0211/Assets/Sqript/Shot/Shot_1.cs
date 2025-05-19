@@ -13,6 +13,6 @@ public class Shot_1 : ShotParent
     public override void ShotInstancePos(Vector3 p)
     {
         Vector3 vector = new(0, 0.5f);
-        this.transform.position = p + vector;
+        transform.position = p + vector;
     }
 }

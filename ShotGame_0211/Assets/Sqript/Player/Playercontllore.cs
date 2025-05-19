@@ -9,6 +9,7 @@ public class Playercontllore : MonoBehaviour
     [SerializeField] public int playerHitPoint;
 
     [SerializeField] GameObject BreakEffect;
+    [SerializeField] GameObject[] Shot;
 
     enum StateType
     {
@@ -26,6 +27,8 @@ public class Playercontllore : MonoBehaviour
     @ShotGame_0211 _gameInputs;
 
     Vector2 moveVec = new(0, 0);
+    int playerLevel;
+    bool shotflag;
 
     private void Awake()
     {
@@ -36,7 +39,8 @@ public class Playercontllore : MonoBehaviour
         _gameInputs.Player.Move.started += Move;
         _gameInputs.Player.Move.performed += Move;
         _gameInputs.Player.Move.canceled += Move;
-        //_gameInputs.Player.Fire.performed += OnJump;
+        _gameInputs.Player.Fire.performed += OnFire;
+        _gameInputs.Player.Fire.canceled += ExitFire;
 
         // Input Actionを機能させるためには、
         // 有効化する必要がある
@@ -51,6 +55,7 @@ public class Playercontllore : MonoBehaviour
         prestate = StateType.Non;
         moveSpeed = 0.1f;
         playerHitPoint = 10;
+        playerLevel = 1;
 
         for (int i = 0; i > playerMoveLimit.Length; i++) {
             playerMoveLimit[i] = 0;
@@ -64,6 +69,11 @@ public class Playercontllore : MonoBehaviour
         PlayerMove(moveSpeed);
         PlayerAnimation();
         PlayerDeath();
+
+        if (shotflag) {
+            ShotInstance();
+        }
+
 
 #if UNITY_EDITOR
         // デバッグ用関数
@@ -161,7 +171,21 @@ public class Playercontllore : MonoBehaviour
         }
     }
 
+    // 弾の発射処理
+    private void ShotInstance()
+    {
+        GameObject[] go = new GameObject[playerLevel];
 
+        for (int i = 0; i < playerLevel; i++)
+        {
+            if (Shot[i] == null) { break; }
+
+            go[i] = Shot[i];
+            Vector3 newpos = player.transform.position;
+            Instantiate(go[i]);
+            go[i].GetComponent<ShotParent>().ShotInstancePos(newpos);
+        }
+    }
 
     // 入力イベント
 
@@ -170,6 +194,16 @@ public class Playercontllore : MonoBehaviour
         Vector2 vector = context.ReadValue<Vector2>();
 
         moveVec = vector;
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        shotflag = true;
+    }
+
+    public void ExitFire(InputAction.CallbackContext context)
+    {
+        shotflag = false;
     }
 
     // デバッグ用
