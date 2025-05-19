@@ -12,13 +12,13 @@ GameObject:
   - component: {fileID: 6102430987526408416}
   - component: {fileID: 541143490646866667}
   - component: {fileID: 5487799868553620469}
-  - component: {fileID: 5052398854419215000}
+  - component: {fileID: 1765105015967640288}
   m_Layer: 0
-  m_Name: PlayerShot_1
+  m_Name: PlayerShot_2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
+  m_StaticEditorFlags: 2147483647
   m_IsActive: 1
 --- !u!4 &4029696704813375923
 Transform:
@@ -28,7 +28,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2956580997933677312}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -2.3699963, y: -3.83, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -149,7 +149,7 @@ CircleCollider2D:
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
   m_Radius: 0.2
---- !u!114 &5052398854419215000
+--- !u!114 &1765105015967640288
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -158,6 +158,6 @@ MonoBehaviour:
   m_GameObject: {fileID: 2956580997933677312}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 72ece906756608d49964e39fc149c9e8, type: 3}
+  m_Script: {fileID: 11500000, guid: 6c6e1ce17220b6941b721abc853a205e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

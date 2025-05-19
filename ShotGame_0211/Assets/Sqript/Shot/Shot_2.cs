@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Shot_1 : ShotParent
+public class Shot_2 : ShotParent
 {
     protected override void ShotMove()
     {

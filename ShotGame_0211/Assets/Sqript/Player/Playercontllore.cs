@@ -1,4 +1,5 @@
 ﻿using Unity.VisualScripting;
+using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -9,7 +10,6 @@ public class Playercontllore : MonoBehaviour
     [SerializeField] public int playerHitPoint;
 
     [SerializeField] GameObject BreakEffect;
-    [SerializeField] GameObject[] Shot;
 
     enum StateType
     {
@@ -25,8 +25,10 @@ public class Playercontllore : MonoBehaviour
     GameObject player;
     Animator anim;
     @ShotGame_0211 _gameInputs;
+    GameObject[] Shot;
 
     Vector2 moveVec = new(0, 0);
+    Vector3[] shotpos;
     int playerLevel;
     bool shotflag;
 
@@ -55,25 +57,46 @@ public class Playercontllore : MonoBehaviour
         prestate = StateType.Non;
         moveSpeed = 0.1f;
         playerHitPoint = 10;
-        playerLevel = 1;
+        playerLevel = 3;
 
         for (int i = 0; i > playerMoveLimit.Length; i++) {
             playerMoveLimit[i] = 0;
         }
 
+        int objectValue = 0;
+
+        // objectの数を数える
+        while (true)
+        {
+            if (Resources.Load<GameObject>
+                ("Shot/PlayerShot_" + (objectValue + 1).ToString()) == null) { break; }
+
+            objectValue++;
+        }
+
+        Shot = new GameObject[objectValue];
+        shotpos = new Vector3[objectValue];
+
+        // objectを登録する
+        for (int i = 0; i < Shot.Length; i++)
+        {
+            Shot[i] = Resources.Load<GameObject>
+                ("Shot/PlayerShot_" + (i + 1).ToString());
+            shotpos[i] = Shot[i].GetComponent<ShotParent>().ShotInstancePos(); 
+        }
     }
 
     private void Update()
     {
+        if (shotflag)
+        {
+            ShotInstance();
+        }
+
         UpDataState();
         PlayerMove(moveSpeed);
         PlayerAnimation();
         PlayerDeath();
-
-        if (shotflag) {
-            ShotInstance();
-        }
-
 
 #if UNITY_EDITOR
         // デバッグ用関数
@@ -174,17 +197,11 @@ public class Playercontllore : MonoBehaviour
     // 弾の発射処理
     private void ShotInstance()
     {
-        GameObject[] go = new GameObject[playerLevel];
+        GameObject go = Shot[playerLevel - 1];
 
-        for (int i = 0; i < playerLevel; i++)
-        {
-            if (Shot[i] == null) { break; }
-
-            go[i] = Shot[i];
-            Vector3 newpos = player.transform.position;
-            Instantiate(go[i]);
-            go[i].GetComponent<ShotParent>().ShotInstancePos(newpos);
-        }
+        Quaternion r = transform.rotation;
+        Vector3 v = transform.position + shotpos[playerLevel - 1];
+        Instantiate(go, v, r);
     }
 
     // 入力イベント

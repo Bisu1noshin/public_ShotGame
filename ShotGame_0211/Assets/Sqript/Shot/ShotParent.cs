@@ -31,7 +31,7 @@ abstract public class ShotParent : MonoBehaviour
     /// </summary>
     abstract protected void ShotMove();
 
-    abstract public void ShotInstancePos(Vector3 playerpositon);
+    abstract public Vector3 ShotInstancePos();
 
     // 参照可能メソッド
 

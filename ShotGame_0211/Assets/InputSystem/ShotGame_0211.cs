@@ -42,7 +42,7 @@ public partial class @ShotGame_0211: IInputActionCollection2, IDisposable
                     ""id"": ""e7a6e350-8ce9-40d4-ac11-6866f7fe6cdf"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Press(pressPoint=0.7)"",
+                    ""interactions"": """",
                     ""initialStateCheck"": true
                 }
             ],
