@@ -3,7 +3,7 @@ using UnityEditor;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
-public class Playercontllore : MonoBehaviour
+public partial class Playercontllore : MonoBehaviour
 {
     [SerializeField] public float moveSpeed;
     [SerializeField] public float[] playerMoveLimit = new float[4];
@@ -57,7 +57,7 @@ public class Playercontllore : MonoBehaviour
         prestate = StateType.Non;
         moveSpeed = 0.1f;
         playerHitPoint = 10;
-        playerLevel = 3;
+        playerLevel = 1;
 
         for (int i = 0; i > playerMoveLimit.Length; i++) {
             playerMoveLimit[i] = 0;
@@ -194,16 +194,6 @@ public class Playercontllore : MonoBehaviour
         }
     }
 
-    // 弾の発射処理
-    private void ShotInstance()
-    {
-        GameObject go = Shot[playerLevel - 1];
-
-        Quaternion r = transform.rotation;
-        Vector3 v = transform.position + shotpos[playerLevel - 1];
-        Instantiate(go, v, r);
-    }
-
     // 入力イベント
 
     public void Move(InputAction.CallbackContext context)
@@ -228,6 +218,7 @@ public class Playercontllore : MonoBehaviour
     void PlayerDebug() 
     {
         playerKill();
+        AddplayerLevel();
     }
 
     void playerKill() 
@@ -235,6 +226,14 @@ public class Playercontllore : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.K)) 
         {
             playerHitPoint = 0;
+        }
+    }
+
+    void AddplayerLevel() {
+        if (Input.GetKeyDown(KeyCode.L)) 
+        {
+            playerLevel++;
+            Debug.Log("playerLevel:" + playerLevel);
         }
     }
 }
