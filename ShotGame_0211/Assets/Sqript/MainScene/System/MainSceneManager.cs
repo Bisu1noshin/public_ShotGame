@@ -5,14 +5,15 @@ using UnityEngine.SceneManagement;
 
 public class MainSceneManager : MonoBehaviour
 {
-    // Start is called before the first frame update
+    private float gameTimeCnt;
     void Start()
     {
-        Application.targetFrameRate = 60;   
+        Application.targetFrameRate = 60;
+        gameTimeCnt = 0;
     }
 
-    public static void GameOverScene() 
+    private void Update()
     {
-        // SceneManager.LoadScene("");
+        gameTimeCnt += Time.deltaTime;
     }
 }

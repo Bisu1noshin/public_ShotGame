@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public partial class Playercontllore : MonoBehaviour
 {
     [SerializeField] public float moveSpeed;
+    [SerializeField] public bool shotflag;
     [SerializeField] public float[] playerMoveLimit = new float[4];
     [SerializeField] public int playerHitPoint;
 
@@ -26,11 +27,13 @@ public partial class Playercontllore : MonoBehaviour
     Animator anim;
     @ShotGame_0211 _gameInputs;
     GameObject[] Shot;
+    GameObject funnelPrefab;
+    GameObject[] funnel;
 
     Vector2 moveVec = new(0, 0);
     Vector3[] shotpos;
     int playerLevel;
-    bool shotflag;
+    bool[] createFunnelFrag;
 
     private void Awake()
     {
@@ -84,6 +87,14 @@ public partial class Playercontllore : MonoBehaviour
                 ("Shot/PlayerShot_" + (i + 1).ToString());
             shotpos[i] = Shot[i].GetComponent<ShotParent>().ShotInstancePos(); 
         }
+
+        funnelPrefab = Resources.Load<GameObject>("Funnel/Funnel");
+
+        funnel = new GameObject[30];
+        createFunnelFrag = new bool[funnel.Length];
+        for (int b = 0; b < createFunnelFrag.Length; b++){
+            createFunnelFrag[b] = false;
+        }
     }
 
     private void Update()
@@ -97,6 +108,7 @@ public partial class Playercontllore : MonoBehaviour
         PlayerMove(moveSpeed);
         PlayerAnimation();
         PlayerDeath();
+        FunnelCnt();
 
 #if UNITY_EDITOR
         // デバッグ用関数
