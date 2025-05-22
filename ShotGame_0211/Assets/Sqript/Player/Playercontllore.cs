@@ -9,6 +9,7 @@ public partial class Playercontllore : MonoBehaviour
     [SerializeField] public bool shotflag;
     [SerializeField] public float[] playerMoveLimit = new float[4];
     [SerializeField] public int playerHitPoint;
+    [SerializeField] const int PlayerMaxHP = 10;
 
     [SerializeField] GameObject BreakEffect;
 
@@ -25,6 +26,7 @@ public partial class Playercontllore : MonoBehaviour
 
     GameObject player;
     Animator anim;
+    SpriteRenderer Sprite;
     @ShotGame_0211 _gameInputs;
     GameObject[] Shot;
     GameObject funnelPrefab;
@@ -34,6 +36,7 @@ public partial class Playercontllore : MonoBehaviour
     Vector3[] shotpos;
     int playerLevel;
     bool[] createFunnelFrag;
+    float invincibleTime;
 
     private void Awake()
     {
@@ -56,10 +59,11 @@ public partial class Playercontllore : MonoBehaviour
     {
         player = this.gameObject;
         anim = GetComponent<Animator>();
+        Sprite = GetComponent<SpriteRenderer>();
         state = StateType.Non;
         prestate = StateType.Non;
         moveSpeed = 0.1f;
-        playerHitPoint = 10;
+        playerHitPoint = 1;
         playerLevel = 1;
 
         for (int i = 0; i > playerMoveLimit.Length; i++) {
@@ -109,6 +113,7 @@ public partial class Playercontllore : MonoBehaviour
         PlayerAnimation();
         PlayerDeath();
         FunnelCnt();
+        InvinciblePlayer();
 
 #if UNITY_EDITOR
         // デバッグ用関数
@@ -175,19 +180,11 @@ public partial class Playercontllore : MonoBehaviour
     {
         if (state == prestate) { return; }
 
-        if (state == StateType.Left)
-        {
-            anim.Play("Player_TurnLeft", 0, 1);
-        }
-
-        if (state == StateType.Right)
-        {
-            anim.Play("Player_TurnRight", 0, 1);
-        }
-
-        if (state == StateType.Idle)
-        {
-            anim.Play("Player_Idle", 0, 1);
+        switch (state) {
+            case StateType.Idle:        anim.Play("Player_Idle", 0, 1); break;
+            case StateType.Right:       anim.Play("Player_TurnRight", 0, 1); break;
+            case StateType.Left:        anim.Play("Player_TurnLeft", 0, 1); break;
+            default: break;
         }
 
         prestate = state;
@@ -198,11 +195,70 @@ public partial class Playercontllore : MonoBehaviour
     {
         if (state == StateType.Break)
         {
-            Vector3 vector = player.transform.position;
+            Vector3 v = transform.position;
+            Quaternion q = transform.rotation;
             GameObject go = BreakEffect;
-            Instantiate(go);
-            go.transform.position = vector;
-            Destroy(player);
+            Instantiate(go, v, q);
+            Destroy(gameObject);
+        }
+    }
+
+    // 無敵処理
+    private void InvinciblePlayer()
+    {
+        invincibleTime -= Time.deltaTime;
+
+        if (invincibleTime <= 0)
+        {
+            invincibleTime = 0;
+            Sprite.color = Color.white;
+        }
+        else {
+            if (Sprite.color == Color.white) { Sprite.color = Color.red;   }
+            else                             { Sprite.color = Color.white; }
+        }
+    }
+
+    // 敵に接触したときの処理
+    private void HitEnemyAttack(EnemyParent e, string name) {
+
+        int atk =  e.GetEnemyAttackPoint();
+        name = e.GetEnemyName();
+
+        if (playerHitPoint - atk <= 0) { 
+            playerHitPoint = 0;
+            return;
+        }
+
+        playerHitPoint -= atk;
+        invincibleTime = 0.3f;
+    }
+
+    // アイテムを拾った時の処理
+    private void HitItemGet(ItemParent i_,string name){
+        name = i_.ItemName();
+        i_.Itemtask(this);
+    }
+
+    // 接触判定
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        // 接触したのが敵の処理
+        EnemyParent e_;
+        if (e_ = collision.GetComponent<EnemyParent>())
+        {
+            string EnemyName = "NoName";
+            HitEnemyAttack(e_, EnemyName);
+            Debug.Log("hitEnemy!" + EnemyName);
+        }
+
+        // 接触したのがアイテムの処理
+        ItemParent i_;
+        if (i_ = collision.GetComponent<ItemParent>())
+        {
+            string ItemName = "NoName";
+            HitItemGet(i_, ItemName);
+            Debug.Log("hitItem!" + ItemName);
         }
     }
 
@@ -247,5 +303,18 @@ public partial class Playercontllore : MonoBehaviour
             playerLevel++;
             Debug.Log("playerLevel:" + playerLevel);
         }
+    }
+
+    // 参照可能メソッド
+
+    public void AddPlayerHp(int hp) 
+    {
+        if (playerHitPoint + hp >= PlayerMaxHP)
+        {
+            playerHitPoint = PlayerMaxHP;
+        }
+        else { playerHitPoint += hp; }
+
+        Debug.Log("PlayerHp->" + playerHitPoint);
     }
 }

@@ -15,6 +15,7 @@ abstract public class ShotParent : MonoBehaviour
     private void Start()
     {
         shot = this.gameObject;
+        attackPoint = 1;
         coll = GetComponent<Collider2D>();
     }
     private void Update()
@@ -38,11 +39,6 @@ abstract public class ShotParent : MonoBehaviour
     // 弾の攻撃力の参照
     public int GetAttackPoint() { return attackPoint; }
 
-    public void SetAttckPoint(int attackpoint)
-    {
-        this.attackPoint = attackpoint;
-    }
-
     // 存在時間
     private void ShotDestroy() 
     {
@@ -51,11 +47,10 @@ abstract public class ShotParent : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    
+
     // 接触判定
-    private void OnCollisionEnter2D(Collision2D collision)
+    private void OnTriggerEnter2D(Collider2D collision)
     {
         Destroy(gameObject);
     }
-
 }

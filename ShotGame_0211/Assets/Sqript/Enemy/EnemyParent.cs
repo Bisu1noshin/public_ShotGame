@@ -1,24 +1,33 @@
-using System.Collections;
+Ôªøusing System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public abstract class EnemyParent : MonoBehaviour
 {
     protected float enemyTimeCnt;
     protected int enemyHp;
+    protected int enemyAtkp;
+    protected float invincibleTime;
+    private Animator animator;
 
-    // íäè€ÉÅÉ\ÉbÉh
-    protected abstract void Start();
+    // ÊäΩË±°„É°„ÇΩ„ÉÉ„Éâ
     protected abstract void EnemyUpDate();
     protected abstract void EnemyAttack();
+    protected abstract void SetInvincibleTime();
     protected abstract GameObject DestroyEffect();
 
+    protected virtual void Start()
+    {
+        animator = GetComponent<Animator>();
+    }
     private void Update()
     {
         EnemyUpDate();
         EnemyAttack();
         EnemyDestroy();
         OutEnemy();
+        InvincibleEnemy();
     }
 
     private void OutEnemy() {
@@ -28,15 +37,49 @@ public abstract class EnemyParent : MonoBehaviour
         float lenge = Mathf.Sqrt(x * x + y * y);
         if (r - lenge < 0) { Destroy(gameObject); }
     }
-
     private void EnemyDestroy() {
+
         if (enemyHp <= 0) { 
             Destroy(gameObject);
         }
     }
-    // éQè∆â¬î\ÉÅÉ\ÉbÉh
+    private void InvincibleEnemy() {
 
+        invincibleTime -= Time.deltaTime;
+
+        if (invincibleTime <= 0)
+        {
+            animator.SetBool("Hit", false);
+            invincibleTime = 0;
+        }
+        else { animator.SetBool("Hit", true); }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        ShotParent s_;
+
+        if ( s_ = collision.GetComponent<ShotParent>()) {
+
+            if (invincibleTime > 0) { return; }
+
+            int atk = s_.GetAttackPoint();
+
+            if (enemyHp - atk <= 0) { 
+                enemyHp = 0;
+                return;
+            }
+
+            enemyHp -= atk;
+            SetInvincibleTime();
+        }
+    }
+
+    // ÂèÇÁÖßÂèØËÉΩ„É°„ÇΩ„ÉÉ„Éâ
     public void SetEnemyTimeCnt(float time) {
         enemyTimeCnt = time;
     }
+    public int GetEnemyAttackPoint() { return enemyAtkp; }
+
+    public abstract string GetEnemyName();
 }
