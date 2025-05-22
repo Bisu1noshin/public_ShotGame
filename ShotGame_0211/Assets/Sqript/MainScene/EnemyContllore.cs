@@ -4,18 +4,7 @@ using UnityEngine;
 
 public class EnemyContllore : MonoBehaviour
 {
-    // 敵の生成用のデータ
-    public struct CREATEENEMYDATE
-    {
-        float CreateTime;   // 敵の出現タイミング
-        Vector3 CreateVec;  // 敵の生成位置（X,Y）
-        int EnemyVallu;     // 敵の種類
-        int isItem;         // アイテムの有無
-    }
-
-    //敵の構造体を格納するリスト
-    public static List<CREATEENEMYDATE> enemy = new List<CREATEENEMYDATE>();
-
+    
     private GameObject[] Enemy;
     private GameObject[] EnemyPrefab;
     private float gameTimeCnt;
