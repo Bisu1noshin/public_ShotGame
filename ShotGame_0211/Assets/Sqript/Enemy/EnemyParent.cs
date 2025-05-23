@@ -9,7 +9,10 @@ public abstract class EnemyParent : MonoBehaviour
     protected int enemyHp;
     protected int enemyAtkp;
     protected float invincibleTime;
-    private Animator animator;
+    protected Color defaltColor = Color.white;
+    private Color hitColor;
+    private SpriteRenderer sp;
+    private GameObject Item;
 
     // 抽象メソッド
     protected abstract void EnemyUpDate();
@@ -19,7 +22,8 @@ public abstract class EnemyParent : MonoBehaviour
 
     protected virtual void Start()
     {
-        animator = GetComponent<Animator>();
+        hitColor = Color.red;
+        sp = GetComponent<SpriteRenderer>();
     }
     private void Update()
     {
@@ -35,11 +39,18 @@ public abstract class EnemyParent : MonoBehaviour
         float x = transform.position.x;
         float y = transform.position.y;
         float lenge = Mathf.Sqrt(x * x + y * y);
-        if (r - lenge < 0) { Destroy(gameObject); }
+        if (r - lenge < 0) { enemyHp = 0; }
     }
     private void EnemyDestroy() {
 
-        if (enemyHp <= 0) { 
+        if (enemyHp <= 0) {
+
+            if(Item != null) 
+            {
+                Vector3 v = transform.position;
+                Quaternion q = transform.rotation;
+                Instantiate(Item, v, q);
+            }
             Destroy(gameObject);
         }
     }
@@ -49,10 +60,13 @@ public abstract class EnemyParent : MonoBehaviour
 
         if (invincibleTime <= 0)
         {
-            animator.SetBool("Hit", false);
+            sp.color = defaltColor;
             invincibleTime = 0;
         }
-        else { animator.SetBool("Hit", true); }
+        else 
+        { 
+            sp.color = hitColor;
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D collision)
@@ -80,6 +94,6 @@ public abstract class EnemyParent : MonoBehaviour
         enemyTimeCnt = time;
     }
     public int GetEnemyAttackPoint() { return enemyAtkp; }
-
+    public void SetItem(GameObject i_) { Item = i_; }
     public abstract string GetEnemyName();
 }

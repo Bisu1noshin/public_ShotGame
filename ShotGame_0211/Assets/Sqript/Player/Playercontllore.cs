@@ -37,6 +37,7 @@ public partial class Playercontllore : MonoBehaviour
     int playerLevel;
     bool[] createFunnelFrag;
     float invincibleTime;
+    int playerMaxLv;
 
     private void Awake()
     {
@@ -94,7 +95,9 @@ public partial class Playercontllore : MonoBehaviour
 
         funnelPrefab = Resources.Load<GameObject>("Funnel/Funnel");
 
-        funnel = new GameObject[30];
+        playerMaxLv = 34;
+        int funnelsize = 34 - 4;
+        funnel = new GameObject[funnelsize];
         createFunnelFrag = new bool[funnel.Length];
         for (int b = 0; b < createFunnelFrag.Length; b++){
             createFunnelFrag[b] = false;
@@ -316,5 +319,21 @@ public partial class Playercontllore : MonoBehaviour
         else { playerHitPoint += hp; }
 
         Debug.Log("PlayerHp->" + playerHitPoint);
+    }
+
+    public void AddPlayerLevel() {
+        if (playerLevel + 1 >= playerMaxLv)
+        {
+            playerLevel = playerMaxLv;
+        }
+        else {
+            playerLevel++;
+        }
+
+        Debug.Log("PlayerLv->" + playerLevel);
+    }
+
+    public void SetPlayerInvincibleTime() {
+        invincibleTime = 1.0f;
     }
 }

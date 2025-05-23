@@ -39,7 +39,8 @@ public class FunnelConttlore : MonoBehaviour
         transform.position = Vector2.MoveTowards(
            transform.position,
            p_.transform.position,
-           speed);
+           speed
+           );
     }
 
     private void shotCreate() 

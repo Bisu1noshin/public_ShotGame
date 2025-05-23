@@ -51,6 +51,7 @@ abstract public class ShotParent : MonoBehaviour
     // 接触判定
     private void OnTriggerEnter2D(Collider2D collision)
     {
+        if(collision.GetComponent<ItemParent>()) { return; }
         Destroy(gameObject);
     }
 }
