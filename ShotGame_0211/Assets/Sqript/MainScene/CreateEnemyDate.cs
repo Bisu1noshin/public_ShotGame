@@ -4,28 +4,19 @@ using System.Collections.Generic;
 using System.IO;
 using UnityEngine;
 
-public class CreateEnemyDate : MonoBehaviour
-{
+public class CreateEnemyDate 
+{ 
     // 敵の生成用のデータ
     public struct CREATEENEMYDATE
     {
         public float    CreateTime;     // 敵の出現タイミング
         public Vector3  CreateVec;      // 敵の生成位置（X,Y）
-        public int      EnemyVallu;     // 敵の種類
+        public int      EnemyValue;     // 敵の種類
         public int      isItem;         // アイテムの有無
     }
 
-    //敵の構造体を格納するリスト
-    public static List<CREATEENEMYDATE> enemy = new List<CREATEENEMYDATE>();
-
-    void Start()
-    {
-        //敵リストに読み込んだ情報を反映
-        enemy = ENEMY_read_csv();
-    }
-
     //ENEMY構造体のcsvファイルを読み込む
-    public List<CREATEENEMYDATE> ENEMY_read_csv()
+    public static List<CREATEENEMYDATE> ENEMY_read_csv(string filePath)
     {
         //一時入力用で毎回初期化する構造体とリスト
         CREATEENEMYDATE ene = new CREATEENEMYDATE();
@@ -44,7 +35,7 @@ public class CreateEnemyDate : MonoBehaviour
         int i = 1;
 
         /* Resouces/CSV下のCSV読み込み */
-        csvFile = Resources.Load("CSV/enemy") as TextAsset;
+        csvFile = Resources.Load(filePath) as TextAsset;
         //読み込んだテキストをString型にして格納
         StringReader reader = new StringReader(csvFile.text);
         while (reader.Peek() > -1)
@@ -58,11 +49,12 @@ public class CreateEnemyDate : MonoBehaviour
         {
             //[i]は行数。[0]~[6]は列数
             //csvDatasはString型なのでそのまま格納できる
-            ene.CreateTime = Convert.ToSingle(csvDatas[i][0]); 
+            ene.CreateTime  = Convert.ToSingle(csvDatas[i][0]); 
             ene.CreateVec.x = Convert.ToSingle(csvDatas[i][1]);
             ene.CreateVec.y = Convert.ToSingle(csvDatas[i][2]);
-            ene.EnemyVallu = (int)Convert.ToSingle(csvDatas[i][3]);
-            ene.isItem = (int)Convert.ToSingle(csvDatas[i][4]);
+            ene.CreateVec.x = 0;
+            ene.EnemyValue  = (int)Convert.ToSingle(csvDatas[i][3]);
+            ene.isItem      = (int)Convert.ToSingle(csvDatas[i][4]);
 
             //戻り値のリストに加える
             ene_list.Add(ene);
