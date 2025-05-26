@@ -4,8 +4,6 @@ using UnityEngine;
 
 public abstract class ItemParent : MonoBehaviour
 {
-    protected float itemTimeCnt;
-
     // 抽象メソッド
     protected abstract void ItemeMove();
 
@@ -35,11 +33,5 @@ public abstract class ItemParent : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-
-    // 参照可能メソッド
-    public void SetItemTimeCnt(float time)
-    {
-        itemTimeCnt = time;
     }
 }

@@ -223,10 +223,11 @@ public partial class Playercontllore : MonoBehaviour
     }
 
     // 敵に接触したときの処理
-    private void HitEnemyAttack(EnemyParent e, string name) {
+    private void HitEnemyAttack(EnemyParent e_) {
 
-        int atk =  e.GetEnemyAttackPoint();
-        name = e.GetEnemyName();
+        int atk =  e_.GetEnemyAttackPoint();
+
+        Debug.Log("Hit Enemy!  " + e_.GetEnemyName());
 
         if (playerHitPoint - atk <= 0) { 
             playerHitPoint = 0;
@@ -238,8 +239,10 @@ public partial class Playercontllore : MonoBehaviour
     }
 
     // アイテムを拾った時の処理
-    private void HitItemGet(ItemParent i_,string name){
-        name = i_.ItemName();
+    private void HitItemGet(ItemParent i_){
+
+        Debug.Log("Hit Item!  " + i_.ItemName());
+
         i_.Itemtask(this);
     }
 
@@ -250,18 +253,14 @@ public partial class Playercontllore : MonoBehaviour
         EnemyParent e_;
         if (e_ = collision.GetComponent<EnemyParent>())
         {
-            string EnemyName = "NoName";
-            HitEnemyAttack(e_, EnemyName);
-            Debug.Log("hitEnemy!" + EnemyName);
+            HitEnemyAttack(e_);
         }
 
         // 接触したのがアイテムの処理
         ItemParent i_;
         if (i_ = collision.GetComponent<ItemParent>())
         {
-            string ItemName = "NoName";
-            HitItemGet(i_, ItemName);
-            Debug.Log("hitItem!" + ItemName);
+            HitItemGet(i_);   
         }
     }
 
@@ -334,6 +333,6 @@ public partial class Playercontllore : MonoBehaviour
     }
 
     public void SetPlayerInvincibleTime() {
-        invincibleTime = 1.0f;
+        invincibleTime = 3.0f;
     }
 }

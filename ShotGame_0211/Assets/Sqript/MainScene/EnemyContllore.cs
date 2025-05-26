@@ -11,9 +11,11 @@ public class EnemyContllore : MonoBehaviour
     private float enemyTimeCnt;
     private float timeSpeed;
     private int enemyCount;
+    private int ListLengh;
     private List<CreateEnemyDate.CREATEENEMYDATE> CREATEENEMYDATE;
 
     const int EnemySize = 20;
+    
 
     private float[] enemyCreateTime;
     private void Start()
@@ -21,7 +23,7 @@ public class EnemyContllore : MonoBehaviour
         timeSpeed = 1.0f;
         enemyTimeCnt = 0;
         gameTimeCnt = 0;
-        enemyCount = 1;
+        enemyCount = 0;
 
         // 敵のプレファブを登録する
         {
@@ -68,8 +70,9 @@ public class EnemyContllore : MonoBehaviour
 
         // CSVから拾ってくる
         {
-            string f = "hsiug";
+            string f = "Enemy/EnmeyCreate";
             CREATEENEMYDATE = CreateEnemyDate.ENEMY_read_csv(f);
+            ListLengh = CREATEENEMYDATE.Count;
         }
 
         Enemy = new EnemyParent[EnemySize];
@@ -92,22 +95,29 @@ public class EnemyContllore : MonoBehaviour
 
     private void CreateEnemy(List<CreateEnemyDate.CREATEENEMYDATE> list) {
 
-        if(list[enemyCount].CreateTime >= gameTimeCnt)
+        // 敵の生成タスクの終了
+        if (enemyCount == ListLengh) { return; }
+
+        if (list[enemyCount].CreateTime <= gameTimeCnt)
         {
             // 空きがあった時の処理
-            for(int i = 0; i < Enemy.Length; i++) {
+            for (int i = 0; i < Enemy.Length; i++)
+            {
+                if (Enemy[i] != null) { continue; }
 
                 Enemy[i] = GetEnemyClass(
                 list[enemyCount].EnemyValue,
                 list[enemyCount].CreateVec
                 );
 
-                if(list[enemyCount].isItem != 0)
+                if (list[enemyCount].isItem != 0)
                 {
                     Enemy[i].SetItem(ItemPrefab[list[enemyCount].isItem]);
                 }
 
+                // 次の敵を生成させるカウントを進める
                 enemyCount++;
+                break;
             }
         }
     }

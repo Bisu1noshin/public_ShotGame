@@ -8,10 +8,10 @@ public class Enemy_1 : EnemyParent
     {
         base.Start();
         enemyAtkp = 1;
-        enemyHp = 10;
+        enemyHp = 3;
     }
     protected override void EnemyUpDate() { 
-        Vector3 moveVec = new(1.0f, 1.0f, 0);
+        Vector3 moveVec = new(1.0f, -1.0f, 0);
         float moveSpeed = 3;
         transform.position += moveVec * enemyTimeCnt * moveSpeed;
     }
@@ -22,7 +22,7 @@ public class Enemy_1 : EnemyParent
 
     protected override void SetInvincibleTime()
     {
-        invincibleTime = 0.2f;
+        invincibleTime = 0.1f;
     }
 
     protected override GameObject DestroyEffect() { 
