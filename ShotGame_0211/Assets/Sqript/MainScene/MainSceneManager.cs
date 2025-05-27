@@ -5,15 +5,23 @@ using UnityEngine.SceneManagement;
 
 public class MainSceneManager : MonoBehaviour
 {
-    private float gameTimeCnt;
+    [SerializeField] GameObject p_;
+
+    float timeCnt;
     void Start()
     {
         Application.targetFrameRate = 60;
-        gameTimeCnt = 0;
     }
 
     private void Update()
     {
-        gameTimeCnt += Time.deltaTime;
+        if(p_ == null) {
+
+            timeCnt ++;
+
+            if (timeCnt >= 60) {
+                SceneManager.LoadScene("EndScene");
+            }
+        }
     }
 }
