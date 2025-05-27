@@ -84,6 +84,7 @@ public class EnemyContllore : MonoBehaviour
         gameTimeCnt += Time.deltaTime;
 
         CreateEnemy(CREATEENEMYDATE);
+        ChangeTimeCnt();
 
         for (int i = 0; i < EnemySize; i++) {
 
@@ -127,5 +128,19 @@ public class EnemyContllore : MonoBehaviour
         GameObject e_ = EnemyPrefab[EnemyValue];
         Quaternion r = transform.rotation;
         return Instantiate(e_, vector, r).GetComponent<EnemyParent>();
+    }
+
+    private void ChangeTimeCnt() {
+
+        if (timeSpeed >= 1.0f) { 
+
+            timeSpeed = 1.0f;
+            return;
+        }
+
+        timeSpeed *= 1.03f;
+    }
+    public void SetTimeSpeed() {
+        timeSpeed = 0.3f;
     }
 }

@@ -21,6 +21,7 @@ public class FunnelConttlore : MonoBehaviour
         
         moveUpdate(parent);
         GetShotFlag();
+
         if (shotFlag) {
             shotCreate();
         }
