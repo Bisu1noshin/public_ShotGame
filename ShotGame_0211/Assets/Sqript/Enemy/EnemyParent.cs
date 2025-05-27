@@ -35,7 +35,7 @@ public abstract class EnemyParent : MonoBehaviour
     }
 
     private void OutEnemy() {
-        float r = 10.0f;
+        float r = 15.0f;
         float x = transform.position.x;
         float y = transform.position.y;
         float lenge = Mathf.Sqrt(x * x + y * y);
@@ -45,12 +45,20 @@ public abstract class EnemyParent : MonoBehaviour
 
         if (enemyHp <= 0) {
 
-            if(Item != null) 
-            {
-                Vector3 v = transform.position;
-                Quaternion q = transform.rotation;
+            Vector3 v = transform.position;
+            Quaternion q = transform.rotation;
+
+            if (Item != null){
+
                 Instantiate(Item, v, q);
             }
+
+            GameObject e = DestroyEffect();
+            if (e != null) {
+                
+                Instantiate(e, v, q);
+            }
+
             Destroy(gameObject);
         }
     }
