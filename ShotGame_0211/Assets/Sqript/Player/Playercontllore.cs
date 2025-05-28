@@ -64,7 +64,7 @@ public partial class Playercontllore : MonoBehaviour
         state = StateType.Non;
         prestate = StateType.Non;
         moveSpeed = 0.1f;
-        playerHitPoint = 1;
+        playerHitPoint = 5;
         playerLevel = 1;
 
         for (int i = 0; i > playerMoveLimit.Length; i++) {

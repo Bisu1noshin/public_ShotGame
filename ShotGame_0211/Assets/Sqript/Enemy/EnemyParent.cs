@@ -13,6 +13,7 @@ public abstract class EnemyParent : MonoBehaviour
     private Color hitColor;
     private SpriteRenderer sp;
     private GameObject Item;
+    private ScoreManagere Score;
 
     // 抽象メソッド
     protected abstract void EnemyUpDate();
@@ -24,6 +25,7 @@ public abstract class EnemyParent : MonoBehaviour
     {
         hitColor = Color.red;
         sp = GetComponent<SpriteRenderer>();
+        Score = GameObject.Find("Score").GetComponent<ScoreManagere>();
     }
     private void Update()
     {
@@ -58,7 +60,6 @@ public abstract class EnemyParent : MonoBehaviour
                 
                 Instantiate(e, v, q);
             }
-
             Destroy(gameObject);
         }
     }
@@ -83,11 +84,13 @@ public abstract class EnemyParent : MonoBehaviour
 
         if ( s_ = collision.GetComponent<ShotParent>()) {
 
-            if (invincibleTime > 0) { return; }
+            //if (invincibleTime > 0) { return; }
 
             int atk = s_.GetAttackPoint();
 
-            if (enemyHp - atk <= 0) { 
+            if (enemyHp - atk <= 0) {
+
+                Score.AddScore();
                 enemyHp = 0;
                 return;
             }

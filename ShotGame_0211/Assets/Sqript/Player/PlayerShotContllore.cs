@@ -4,12 +4,22 @@ using UnityEngine;
 
 public partial class Playercontllore : MonoBehaviour
 {
+    private float shotTime;
+    const float MaxshotTime = 0.1f;
+
     // 弾の発射処理
     private void ShotInstance()
     {
-        bool goShot = TaskPlayerLevel(playerLevel);
+        shotTime += Time.deltaTime;
 
-        if (!goShot) { Debug.Log("レベルが不正"); }
+        if (shotTime >= MaxshotTime) {
+
+            bool goShot = TaskPlayerLevel(playerLevel);
+
+            if (!goShot) { Debug.Log("レベルが不正"); }
+
+            shotTime = 0;
+        }
     }
 
     // レベルに応じて弾を変える

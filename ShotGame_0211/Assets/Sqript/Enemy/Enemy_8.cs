@@ -35,7 +35,7 @@ public class Enemy_8 : EnemyParent
 
     protected override void SetInvincibleTime()
     {
-        invincibleTime = 0.01f;
+        invincibleTime = 0.1f;
     }
 
     protected override GameObject DestroyEffect()

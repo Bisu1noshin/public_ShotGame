@@ -1,0 +1,22 @@
+fileFormatVersion: 2
+guid: 28e397c22468d664880beb4e30e85653
+TrueTypeFontImporter:
+  externalObjects: {}
+  serializedVersion: 4
+  fontSize: 16
+  forceTextureCase: -2
+  characterSpacing: 0
+  characterPadding: 1
+  includeFontData: 1
+  fontNames:
+  - Dela Gothic One
+  fallbackFontReferences:
+  - {fileID: 12800000, guid: ab0173e430b1ec54bbb14b3d316e0f6f, type: 3}
+  customCharacters: 
+  fontRenderingMode: 0
+  ascentCalculationMode: 1
+  useLegacyBoundsCalculation: 0
+  shouldRoundAdvanceValue: 1
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

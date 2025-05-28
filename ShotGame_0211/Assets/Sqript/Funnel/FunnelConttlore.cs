@@ -9,6 +9,9 @@ public class FunnelConttlore : MonoBehaviour
     GameObject shot;
     Vector3 shotpos;
 
+    private float shotTime;
+    const float MaxshotTime = 0.1f;
+
     private void Start()
     {
         shot = Resources.Load<GameObject>("Shot/PlayerShot_1");
@@ -46,9 +49,16 @@ public class FunnelConttlore : MonoBehaviour
 
     private void shotCreate() 
     {
-        Quaternion r = transform.rotation;
-        Vector3 v = transform.position + shotpos;
-        Instantiate(shot, v, r);
+        shotTime += Time.deltaTime;
+
+        if (shotTime >= MaxshotTime)
+        {
+            Quaternion r = transform.rotation;
+            Vector3 v = transform.position + shotpos;
+            Instantiate(shot, v, r);
+
+            shotTime = 0;
+        }
     }
 
     private void GetShotFlag() 

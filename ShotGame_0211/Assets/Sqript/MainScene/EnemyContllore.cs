@@ -14,6 +14,7 @@ public class EnemyContllore : MonoBehaviour
     private int ListLengh;
     private int loopCnt;
     private List<CreateEnemyDate.CREATEENEMYDATE> CREATEENEMYDATE;
+    private bool AllOK;
 
     const int EnemySize = 20;
     const int MaxLoopCnt = 2;
@@ -26,6 +27,7 @@ public class EnemyContllore : MonoBehaviour
         gameTimeCnt = 0;
         enemyCount = 0;
         loopCnt = 0;
+        AllOK = false;
 
         // 敵のプレファブを登録する
         {
@@ -101,7 +103,11 @@ public class EnemyContllore : MonoBehaviour
         // 敵の生成タスクの終了
         if (enemyCount == ListLengh) {
 
-            if (loopCnt == MaxLoopCnt) { return; }
+            if (loopCnt == MaxLoopCnt) {
+
+                AllOK = true;
+                return;
+            }
 
             loopCnt++;
             enemyCount = 0;
@@ -152,4 +158,5 @@ public class EnemyContllore : MonoBehaviour
     public void SetTimeSpeed() {
         timeSpeed = 0.05f;
     }
+    public bool GetCreaeFlag() { return AllOK; }
 }
